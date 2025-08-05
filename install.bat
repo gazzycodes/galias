@@ -1,30 +1,11 @@
 @echo off
-echo 🚀 GALIAS Windows Installer
+echo 🚀 GALIAS Setup
 echo ========================================
-
-echo 📦 Installing GALIAS...
-python -m pip install --user .
-
-if %errorlevel% neq 0 (
-    echo ❌ Installation failed!
-    pause
-    exit /b 1
-)
-
-echo ✅ GALIAS installed successfully!
-
-echo 📝 Adding to PATH...
-for /f "tokens=*" %%i in ('python -c "import site, os; print(os.path.join(site.USER_BASE, 'Scripts'))"') do set SCRIPTS_DIR=%%i
-
-echo Scripts directory: %SCRIPTS_DIR%
-
-:: Add to user PATH using PowerShell
-powershell -Command "$currentPath = [Environment]::GetEnvironmentVariable('PATH', 'User'); if ($currentPath -notlike '*%SCRIPTS_DIR%*') { $newPath = $currentPath + ';%SCRIPTS_DIR%'; [Environment]::SetEnvironmentVariable('PATH', $newPath, 'User'); Write-Output 'PATH updated successfully' } else { Write-Output 'Directory already in PATH' }"
 
 echo 📝 Creating .env file...
 if not exist .env (
     if exist .env.example (
-        copy .env.example .env
+        copy .env.example .env >nul
         echo ✅ .env file created from template
     ) else (
         echo ⚠️  No .env.example found
@@ -33,16 +14,22 @@ if not exist .env (
     echo ✅ .env file already exists
 )
 
+echo 🧪 Testing GALIAS...
+.\galias.bat --version
+
 echo.
-echo 🎉 Installation Complete!
+echo 🎉 Setup Complete!
 echo ========================================
-echo 📋 Next steps:
-echo 1. RESTART your terminal/PowerShell
-echo 2. Edit .env with your ImprovMX API key and domain
-echo 3. Run: galias --version
-echo 4. Run: galias list
+echo 📋 Usage:
+echo    .\galias.bat --version
+echo    .\galias.bat list
+echo    .\galias.bat add
+echo    .\galias.bat delete
 echo.
-echo 💡 If 'galias' command doesn't work after restart:
-echo    Manually add this to your PATH: %SCRIPTS_DIR%
+echo 📝 Next steps:
+echo 1. Edit .env with your ImprovMX API key and domain
+echo 2. Start using GALIAS with the commands above!
+echo.
+echo 💡 No installation or PATH setup needed - just works!
 echo.
 pause

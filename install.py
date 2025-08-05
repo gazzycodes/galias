@@ -114,19 +114,48 @@ def install_galias():
         return False
 
 
+def create_wrapper_script():
+    """Create a wrapper script that works immediately."""
+    if platform.system() == "Windows":
+        # Create galias.bat in the same directory as the project
+        wrapper_content = '''@echo off
+python -c "import sys; sys.path.insert(0, r'%~dp0'); import improvctl; improvctl.main()" %*
+'''
+        wrapper_path = Path("galias.bat")
+        wrapper_path.write_text(wrapper_content)
+        print(f"✅ Created wrapper script: {wrapper_path.absolute()}")
+        return str(wrapper_path.absolute())
+    else:
+        # Create galias shell script for Unix systems
+        wrapper_content = '''#!/bin/bash
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+python3 -c "import sys; sys.path.insert(0, '$SCRIPT_DIR'); import improvctl; improvctl.main()" "$@"
+'''
+        wrapper_path = Path("galias")
+        wrapper_path.write_text(wrapper_content)
+        wrapper_path.chmod(0o755)  # Make executable
+        print(f"✅ Created wrapper script: {wrapper_path.absolute()}")
+        return str(wrapper_path.absolute())
+
+
 def test_installation():
     """Test if galias command works."""
     print("🧪 Testing installation...")
-    
-    stdout, stderr, returncode = run_command("galias --version", check=False)
-    
+
+    # Test the wrapper script
+    if platform.system() == "Windows":
+        test_cmd = "galias.bat --version"
+    else:
+        test_cmd = "./galias --version"
+
+    stdout, stderr, returncode = run_command(test_cmd, check=False)
+
     if returncode == 0:
-        print("✅ GALIAS command works!")
+        print("✅ GALIAS wrapper script works!")
         print(f"📋 Version: {stdout}")
         return True
     else:
-        print("⚠️  GALIAS command not found in PATH")
-        print("💡 You may need to restart your terminal")
+        print(f"⚠️  Wrapper script test failed: {stderr}")
         return False
 
 
@@ -153,41 +182,39 @@ def main():
     """Main installation process."""
     print("🚀 GALIAS Installation Script")
     print("=" * 40)
-    
-    # Step 1: Install package
-    if not install_galias():
-        sys.exit(1)
-    
-    # Step 2: Get scripts directory
-    scripts_dir = get_scripts_dir()
-    print(f"📁 Scripts directory: {scripts_dir}")
-    
-    # Step 3: Check if in PATH
-    if is_in_path(scripts_dir):
-        print("✅ Scripts directory already in PATH")
-    else:
-        print("📝 Scripts directory not in PATH, adding...")
-        
-        if platform.system() == "Windows":
-            add_to_path_windows(scripts_dir)
-        else:
-            add_to_path_unix(scripts_dir)
-    
-    # Step 4: Create .env file
+
+    # Step 1: Install package (optional, for completeness)
+    print("📦 Installing GALIAS package...")
+    install_galias()  # Don't exit on failure, wrapper will work anyway
+
+    # Step 2: Create wrapper script (works immediately)
+    wrapper_path = create_wrapper_script()
+
+    # Step 3: Create .env file
     create_env_file()
-    
-    # Step 5: Test installation
+
+    # Step 4: Test installation
     test_installation()
-    
+
     print("\n🎉 Installation Complete!")
     print("=" * 40)
-    print("📋 Next steps:")
-    print("1. Restart your terminal")
-    print("2. Edit .env with your ImprovMX API key and domain")
-    print("3. Run: galias --version")
-    print("4. Run: galias list")
-    print("\n💡 If 'galias' command doesn't work after restart:")
-    print(f"   Add this to your PATH: {scripts_dir}")
+    print("📋 Usage:")
+    if platform.system() == "Windows":
+        print("   galias.bat --version")
+        print("   galias.bat list")
+        print("   galias.bat add")
+        print("   galias.bat delete")
+    else:
+        print("   ./galias --version")
+        print("   ./galias list")
+        print("   ./galias add")
+        print("   ./galias delete")
+
+    print("\n📝 Next steps:")
+    print("1. Edit .env with your ImprovMX API key and domain")
+    print("2. Start using GALIAS with the commands above!")
+    print(f"\n💡 Wrapper script location: {wrapper_path}")
+    print("   You can copy this to any directory in your PATH for global access")
 
 
 if __name__ == "__main__":

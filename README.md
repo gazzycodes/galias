@@ -27,51 +27,28 @@ ImprovMX Alias Manager @ yourdomain.com
 
 ## 🚀 Quick Start
 
-### Method 1: Automated Installation (Recommended)
+### Super Simple Installation (Works Immediately!)
 
-**Windows:**
 ```bash
 git clone https://github.com/gazzycodes/galias.git
 cd galias
-install.bat
-```
-
-**macOS/Linux:**
-```bash
-git clone https://github.com/gazzycodes/galias.git
-cd galias
-python3 install.py
-```
-
-**The installer will:**
-- ✅ Install GALIAS package
-- ✅ Configure PATH automatically
-- ✅ Create .env file from template
-- ✅ Test the installation
-
-### Method 2: Manual Installation
-
-```bash
-# Clone repository
-git clone https://github.com/gazzycodes/galias.git
-cd galias
-
-# Install package
-pip install --user .
-
-# Create configuration
 cp .env.example .env
 ```
 
-**⚠️ Important:** After manual installation, you may need to add Python Scripts to your PATH:
-- **Windows:** Add `%APPDATA%\Python\Python3X\Scripts` to PATH
-- **macOS/Linux:** Add `~/.local/bin` to PATH
-
-### Method 3: Direct from GitHub
+**That's it!** No PATH setup, no pip install complications. Just edit `.env` and start using:
 
 ```bash
-pip install --user git+https://github.com/gazzycodes/galias.git
-cp .env.example .env  # You'll need to download this file manually
+# Windows
+.\galias.bat --version
+.\galias.bat list
+.\galias.bat add
+.\galias.bat delete
+
+# macOS/Linux
+./galias --version
+./galias list
+./galias add
+./galias delete
 ```
 
 ### Configure Environment
@@ -82,17 +59,18 @@ IMPROVMX_API_KEY=sk_your_api_key_here
 DOMAIN=yourdomain.com
 ```
 
-### Start Using GALIAS
+### Alternative: Traditional Installation
+
+If you prefer installing as a Python package:
 
 ```bash
-# After installation and PATH setup:
-galias --version
-galias list
-galias add
-galias add info me@personal.com
-galias delete info
-galias status
+git clone https://github.com/gazzycodes/galias.git
+cd galias
+pip install --user .
+cp .env.example .env
 ```
+
+**Note:** Traditional installation may require PATH configuration for the `galias` command to work globally.
 
 ## 📖 Commands
 
