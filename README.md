@@ -27,35 +27,56 @@ ImprovMX Alias Manager @ yourdomain.com
 
 ## 🚀 Quick Start
 
-### Method 1: Install from GitHub (Recommended)
+### Method 1: Automated Installation (Recommended)
 
+**Windows:**
 ```bash
-# Install directly from GitHub
-pip install git+https://github.com/gazzycodes/galias.git
-
-# Or clone and install locally
 git clone https://github.com/gazzycodes/galias.git
 cd galias
-pip install .
+install.bat
 ```
 
-### Method 2: Development Setup
-
+**macOS/Linux:**
 ```bash
 git clone https://github.com/gazzycodes/galias.git
 cd galias
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -e .  # Editable install for development
+python3 install.py
+```
+
+**The installer will:**
+- ✅ Install GALIAS package
+- ✅ Configure PATH automatically
+- ✅ Create .env file from template
+- ✅ Test the installation
+
+### Method 2: Manual Installation
+
+```bash
+# Clone repository
+git clone https://github.com/gazzycodes/galias.git
+cd galias
+
+# Install package
+pip install --user .
+
+# Create configuration
+cp .env.example .env
+```
+
+**⚠️ Important:** After manual installation, you may need to add Python Scripts to your PATH:
+- **Windows:** Add `%APPDATA%\Python\Python3X\Scripts` to PATH
+- **macOS/Linux:** Add `~/.local/bin` to PATH
+
+### Method 3: Direct from GitHub
+
+```bash
+pip install --user git+https://github.com/gazzycodes/galias.git
+cp .env.example .env  # You'll need to download this file manually
 ```
 
 ### Configure Environment
 
-```bash
-cp .env.example .env
-```
-
-Edit `.env` with your details:
+Edit `.env` with your ImprovMX credentials:
 ```env
 IMPROVMX_API_KEY=sk_your_api_key_here
 DOMAIN=yourdomain.com
@@ -64,15 +85,13 @@ DOMAIN=yourdomain.com
 ### Start Using GALIAS
 
 ```bash
-# After installation, use the 'galias' command directly:
+# After installation and PATH setup:
+galias --version
 galias list
 galias add
 galias add info me@personal.com
 galias delete info
 galias status
-
-# Or use the Python module directly:
-python -m improvctl list
 ```
 
 ## 📖 Commands
@@ -236,6 +255,12 @@ galias add bot bot@company.com --json --quiet
 ## 🐛 Troubleshooting
 
 ### Common Issues
+
+**"galias: command not found" or "galias is not recognized"**
+- The Python Scripts directory is not in your PATH
+- **Solution 1:** Use the automated installer (`install.bat` on Windows or `python3 install.py` on macOS/Linux)
+- **Solution 2:** Manually add Python Scripts directory to PATH
+- **Solution 3:** Use `python -c "import improvctl; improvctl.main()" list` instead
 
 **"✗ Missing IMPROVMX_API_KEY in .env"**
 - Make sure your `.env` file exists and contains your API key
