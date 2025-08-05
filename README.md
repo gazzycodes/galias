@@ -27,50 +27,28 @@ ImprovMX Alias Manager @ yourdomain.com
 
 ## 🚀 Quick Start
 
-### Method 1: Global Installation (Recommended)
-
-**Windows:**
-```bash
-git clone https://github.com/gazzycodes/galias.git
-cd galias
-install_galias.bat
-# Close terminal and open a new one
-galias --version
-```
-
-**macOS/Linux:**
-```bash
-git clone https://github.com/gazzycodes/galias.git
-cd galias
-pip install --user .
-cp .env.example .env
-# May need to restart terminal
-galias --version
-```
-
-After installation, use the `galias` command from anywhere:
-```bash
-galias --version
-galias list
-galias add
-galias delete
-galias status
-```
-
-### Method 2: Local Usage (No Installation)
-
-If you prefer not to install globally:
+### Super Simple Setup (Works Immediately!)
 
 ```bash
 git clone https://github.com/gazzycodes/galias.git
 cd galias
 cp .env.example .env
+```
 
+**That's it!** Edit `.env` with your credentials and start using:
+
+```bash
 # Windows
+.\galias.bat --version
 .\galias.bat list
+.\galias.bat add
+.\galias.bat delete
 
 # macOS/Linux
+./galias --version
 ./galias list
+./galias add
+./galias delete
 ```
 
 ### Configure Environment
@@ -80,6 +58,8 @@ Edit `.env` with your ImprovMX credentials:
 IMPROVMX_API_KEY=sk_your_api_key_here
 DOMAIN=yourdomain.com
 ```
+
+**No installation, no PATH setup, no complications - just works!**
 
 ## 📖 Commands
 
