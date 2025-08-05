@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "galias"
+version = "1.0.0"
+authors = [
+    {name = "GazzyCodes", email = "gazzyjuruj1@gmail.com"}
+]
+description = "Terminal-based ImprovMX alias manager with hacker-chic style"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Communications :: Email",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Utilities",
+    "Environment :: Console"
+]
+keywords = ["email", "alias", "improvmx", "cli", "terminal", "hacker"]
+dependencies = [
+    "requests>=2.31.0",
+    "rich>=13.0.0",
+    "typer>=0.9.0",
+    "python-dotenv>=1.0.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "responses>=0.23.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/gazzycodes/galias"
+Repository = "https://github.com/gazzycodes/galias"
+Issues = "https://github.com/gazzycodes/galias/issues"
+Documentation = "https://github.com/gazzycodes/galias#readme"
+
+[project.scripts]
+galias = "improvctl:main"
+
+[tool.setuptools]
+py-modules = ["improvctl", "config", "api", "ui", "cli"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
